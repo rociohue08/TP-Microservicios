@@ -4,7 +4,7 @@ real dell guardado
 */
 import { Controller, Get, Post, Put, Delete, Param, Body, HttpStatus, HttpCode } from '@nestjs/common';
 import { ItsProductoService } from './its-producto.service';
-import { CreateProductoDto } from '../src/dto/create.producto.dto';
+import { CreateProductoDto } from './dto/create.producto.dto';
 
 @Controller('products') // Define la ruta base para todas las operaciones
 export class ItsProductoController {

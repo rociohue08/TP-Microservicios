@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { Producto } from '../entities/producto.entity';
 
-@Entity()
+@Entity('reserva')
 export class Reserva {
   @PrimaryGeneratedColumn('uuid')
  //el decorador uuid genera un id como cadena no como number

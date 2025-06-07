@@ -1,4 +1,3 @@
-// its-producto.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ItsProductoController } from './its-producto.controller';
@@ -8,9 +7,13 @@ import { Reserva } from './entities/reserva.entity';
 
 @Module({
   imports: [
+    // importo entidades propias de este modulo 
     TypeOrmModule.forFeature([Producto,Reserva]),
   ],
   controllers: [ItsProductoController],
   providers: [ItsProductoService],
 })
 export class ItsProductoModule {}
+
+//se dedica exclusivamente a la funcionalidad de productos
+//ItsProductoModule: Gestiona sus propias entidades.
