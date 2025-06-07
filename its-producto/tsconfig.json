@@ -1,0 +1,29 @@
+// its-producto/tsconfig.json
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2023",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+
+    // 👇 Requeridos para TypeORM y decoradores
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+    // 👇 Opciones recomendadas
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "declaration": true,
+    "removeComments": true,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    "types": ["node"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+}
