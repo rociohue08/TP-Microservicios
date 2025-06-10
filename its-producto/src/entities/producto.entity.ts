@@ -3,8 +3,8 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity('producto')//nombre de la tabla
 export class Producto {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   nombre: string;

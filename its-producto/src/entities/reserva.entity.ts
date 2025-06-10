@@ -3,9 +3,8 @@ import { Producto } from '../entities/producto.entity';
 
 @Entity('reserva')
 export class Reserva {
-  @PrimaryGeneratedColumn('uuid')
- //el decorador uuid genera un id como cadena no como number
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   usuarioId: number;

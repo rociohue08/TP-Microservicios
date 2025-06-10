@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Factura {
+  id        Int       @id @default(autoincrement())
+  usuarioId Int
+  total     Float
+  fecha     DateTime  @default(now())
+  productos ProductoEnFactura[]
+}
+
+model ProductoEnFactura {
+  id         Int       @id @default(autoincrement())
+  productoId Int
+  cantidad   Int
+  facturaId  Int?
+  factura    Factura?  @relation(fields: [facturaId], references: [id])
+}
