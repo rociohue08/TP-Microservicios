@@ -51,6 +51,10 @@ interface EnvVars {
   MS_USER_PORT: number;
   MS_PRODUCT_HOST: string;
   MS_PRODUCT_PORT: number;
+  MS_FACTURA_HOST:string;
+  MS_FACTURA_PORT:number;
+  JWT_SECRET: string;
+
 }
 
 // Solo tomamos las variables que nos interesan (ignoramos las del sistema)
@@ -60,6 +64,9 @@ const _envs = {
   MS_USER_PORT: process.env.MS_USER_PORT,
   MS_PRODUCT_HOST: process.env.MS_PRODUCT_HOST,
   MS_PRODUCT_PORT: process.env.MS_PRODUCT_PORT,
+  MS_FACTURA_HOST: process.env.MS_FACTURA_HOST,
+  MS_FACTURA_PORT:process.env.MS_FACTURA_PORT,
+  JWT_SECRET: process.env.JWT_SECRET,
 };
 
 // Esquema de validación – TODAS deben estar aquí
@@ -69,6 +76,9 @@ const envsSchema = joi.object({
   MS_USER_PORT: joi.number().required(),
   MS_PRODUCT_HOST: joi.string().required(),
   MS_PRODUCT_PORT: joi.number().required(),
+  MS_FACTURA_HOST:joi.string().required(),
+  MS_FACTURA_PORT:joi.number().required(),
+  JWT_SECRET: joi.string().required(),
 }).unknown(false); // ❌ No permitimos variables extras
 
 // Validamos solo las variables definidas por nosotros
@@ -90,4 +100,7 @@ export const envs = {
   MS_USER_PORT: validatedEnvs.MS_USER_PORT,
   MS_PRODUCT_HOST: validatedEnvs.MS_PRODUCT_HOST,
   MS_PRODUCT_PORT: validatedEnvs.MS_PRODUCT_PORT,
+  MS_FACTURA_HOST:validatedEnvs.MS_FACTURA_HOST,
+  MS_FACTURA_PORT:validatedEnvs.MS_FACTURA_PORT,
+    JWT_SECRET: validatedEnvs.JWT_SECRET, 
 };

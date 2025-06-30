@@ -35,12 +35,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.8.2
- * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+ * Prisma Client JS version: 6.10.1
+ * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
  */
 Prisma.prismaVersion = {
-  client: "6.8.2",
-  engine: "2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
+  client: "6.10.1",
+  engine: "9b628578b3b7cae625e8c927178f15a170e74a9c"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -156,16 +156,17 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
+    "rootEnvPath": "../../.env",
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
-  "clientVersion": "6.8.2",
-  "engineVersion": "2060c79ba17c6bb9f5823312b6f6b7f4a845738e",
+  "clientVersion": "6.10.1",
+  "engineVersion": "9b628578b3b7cae625e8c927178f15a170e74a9c",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -174,8 +175,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Usuario {\n  id          Int       @id @default(autoincrement())\n  nombre      String\n  apellido    String\n  email       String    @unique\n  contraseña String\n  rol         Rol       @default(USUARIO)\n  carritos    Carrito[]\n\n  @@map(\"Usuario\")\n}\n\nmodel Carrito {\n  usuarioId     Int\n  productoId    Int\n  cantidad      Int\n  fechaAgregado DateTime @default(now())\n  usuario       Usuario  @relation(fields: [usuarioId], references: [id])\n\n  @@id([usuarioId, productoId])\n  @@map(\"Carrito\")\n}\n\nenum Rol {\n  USUARIO\n  ADMIN\n}\n",
-  "inlineSchemaHash": "4a179dd8591408cbb20951ce089ffd1742233c7d5f05a2d128968cc6dae2ae71",
+  "inlineSchema": "datasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\nmodel Usuario {\n  id          Int       @id @default(autoincrement())\n  nombre      String\n  apellido    String\n  email       String    @unique\n  contraseña String\n  rol         Rol       @default(USUARIO)\n  carritos    Carrito[]\n\n  @@map(\"Usuario\")\n}\n\nmodel Carrito {\n  usuarioId     Int\n  productoId    Int\n  cantidad      Int\n  fechaAgregado DateTime @default(now())\n  usuario       Usuario  @relation(fields: [usuarioId], references: [id])\n\n  @@id([usuarioId, productoId])\n  @@map(\"Carrito\") // sirve para forzar a que el nombre empiece con mayúsculas\n}\n\nenum Rol {\n  USUARIO\n  ADMIN\n}\n",
+  "inlineSchemaHash": "d65b7a1db7d77a25db18c70ed341ef92b73ba80d88dc77b9db876806c3aa54dc",
   "copyEngine": true
 }
 

@@ -1,11 +1,11 @@
-generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 model Usuario {
@@ -28,7 +28,7 @@ model Carrito {
   usuario       Usuario  @relation(fields: [usuarioId], references: [id])
 
   @@id([usuarioId, productoId])
-  @@map("Carrito")
+  @@map("Carrito") // sirve para forzar a que el nombre empiece con mayúsculas
 }
 
 enum Rol {
