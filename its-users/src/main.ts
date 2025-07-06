@@ -1,27 +1,25 @@
-
-
-
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-
+import { AppModule } from './app.module';
 async function bootstrap() {
-  const httpServer = await NestFactory.create(AppModule);
-  await httpServer.listen(3001);
-  console.log('HTTP server running on http://localhost:3001');
+  // 🔧 1. Iniciar servidor HTTP (rutas REST)
+  const httpApp = await NestFactory.create(AppModule);
+  await httpApp.listen(4001); // ← Puerto para Postman y frontend
+  console.log('HTTP server running on http://localhost:4001');
 
-  const tcpServer = await NestFactory.createMicroservice<MicroserviceOptions>(
+  // ⚙️ 2. Iniciar microservicio TCP (comunicación entre servicios)
+  const tcpApp = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
       transport: Transport.TCP,
       options: {
         host: 'localhost',
-        port: 4001,
+        port: 3001, // ← Puerto para comunicación interna (Gateway)
       },
     }
   );
-  await tcpServer.listen();
-  console.log('TCP microservice running on port 4001');
+  await tcpApp.listen();
+  console.log('TCP microservice running on port 3001');
 }
 
 bootstrap();

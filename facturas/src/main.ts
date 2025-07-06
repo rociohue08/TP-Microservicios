@@ -1,7 +1,7 @@
 
 // Inicia el microservicio TCP
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './factura.module';
 import { envs } from './config/envs';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 

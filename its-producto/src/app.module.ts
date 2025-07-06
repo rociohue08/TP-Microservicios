@@ -1,7 +1,7 @@
 // AppModule: configuración general del proyecto
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ItsProductoModule } from './its-producto.module';
+import { ItsProductoModule } from './producto.module';
 import { Producto } from './entities/producto.entity';
 import { envs } from './config/envs';
 

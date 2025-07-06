@@ -141,9 +141,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
+exports.Prisma.UsuarioOrderByRelevanceFieldEnum = {
+  nombre: 'nombre',
+  apellido: 'apellido',
+  email: 'email',
+  contraseña: 'contraseña'
 };
 exports.Rol = exports.$Enums.Rol = {
   USUARIO: 'USUARIO',

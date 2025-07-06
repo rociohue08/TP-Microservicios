@@ -114,9 +114,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
+exports.Prisma.UsuarioOrderByRelevanceFieldEnum = {
+  nombre: 'nombre',
+  apellido: 'apellido',
+  email: 'email',
+  contraseña: 'contraseña'
 };
 exports.Rol = exports.$Enums.Rol = {
   USUARIO: 'USUARIO',
@@ -156,7 +158,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
@@ -165,7 +167,7 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "postgresql",
+  "activeProvider": "mysql",
   "postinstall": false,
   "inlineDatasources": {
     "db": {
@@ -175,8 +177,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "datasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\nmodel Usuario {\n  id          Int       @id @default(autoincrement())\n  nombre      String\n  apellido    String\n  email       String    @unique\n  contraseña String\n  rol         Rol       @default(USUARIO)\n  carritos    Carrito[]\n\n  @@map(\"Usuario\")\n}\n\nmodel Carrito {\n  usuarioId     Int\n  productoId    Int\n  cantidad      Int\n  fechaAgregado DateTime @default(now())\n  usuario       Usuario  @relation(fields: [usuarioId], references: [id])\n\n  @@id([usuarioId, productoId])\n  @@map(\"Carrito\") // sirve para forzar a que el nombre empiece con mayúsculas\n}\n\nenum Rol {\n  USUARIO\n  ADMIN\n}\n",
-  "inlineSchemaHash": "d65b7a1db7d77a25db18c70ed341ef92b73ba80d88dc77b9db876806c3aa54dc",
+  "inlineSchema": "datasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\nmodel Usuario {\n  id          Int       @id @default(autoincrement())\n  nombre      String\n  apellido    String\n  email       String    @unique\n  contraseña String\n  rol         Rol       @default(USUARIO)\n  carritos    Carrito[]\n\n  @@map(\"Usuario\")\n}\n\nmodel Carrito {\n  usuarioId     Int\n  productoId    Int\n  cantidad      Int\n  fechaAgregado DateTime @default(now())\n  usuario       Usuario  @relation(fields: [usuarioId], references: [id])\n\n  @@id([usuarioId, productoId])\n  @@map(\"Carrito\") // sirve para forzar a que el nombre empiece con mayúsculas\n}\n\nenum Rol {\n  USUARIO\n  ADMIN\n}\n",
+  "inlineSchemaHash": "fb92c0fc908ac2d92f6636e7656740a244193bc59bc3b8fc27a83e42927e24eb",
   "copyEngine": true
 }
 
