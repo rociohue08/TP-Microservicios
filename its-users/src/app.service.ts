@@ -55,4 +55,43 @@ export class AppService {
     const { contraseña: _, ...result } = nuevoUsuario;
     return result;
   }
+
+// Agrega un producto al carrito
+  async agregarAlCarrito(usuarioId: number, productoId: number, cantidad: number) {
+    try {
+      const carrito = await this.prisma.carrito.findUnique({
+        where: {
+          usuarioId_productoId: {
+            usuarioId,
+            productoId,
+          },
+        },
+      });
+
+      if (carrito) {
+        return await this.prisma.carrito.update({
+          where: {
+            usuarioId_productoId: {
+              usuarioId,
+              productoId,
+            },
+          },
+          data: {
+            cantidad: carrito.cantidad + cantidad,
+          },
+        });
+      }
+
+      return await this.prisma.carrito.create({
+        data: {
+          usuarioId,
+          productoId,
+          cantidad,
+        },
+      });
+    } catch (error) {
+      console.error('❌ Error agregando al carrito:', error.message || 'Error desconocido');
+      throw new Error('No se pudo agregar al carrito');
+    }
+  }
 }
