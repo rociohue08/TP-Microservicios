@@ -3,21 +3,21 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
-// Importa tus variables de entorno
 import { envs } from './config/envs';
-// Auth
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { JwtPassport } from './auth/jwt.passport';
+import { UsuariosController } from './users/usuarios.controller';
+import { MS_USER, MS_PRODUCTO, MS_FACTURA } from './config/constants';
+import { ProductosController } from './productos/productos.controller';
+import { ReservasController } from './reservas/reservas.controller';
+import { CompraController } from './compra/compra.controller';
+import { FacturaController } from './factura/factura.controller';
+import { CarritoController } from './carrito/carrito.controller';
 
-// Definimos MS_USER una vez y lo reusamos
-const MS_USER = 'MS_USER';
-const MS_PRODUCTO = 'MS_PRODUCTO';
-const MS_FACTURA = 'MS_FACTURA';
 
 @Module({
   imports: [
-    // Comunicación con microservicios via TCP
     ClientsModule.register([
       {
         name: MS_USER,
@@ -44,31 +44,26 @@ const MS_FACTURA = 'MS_FACTURA';
         },
       },
     ]),
-
-    // Módulo JWT
     JwtModule.register({
       secret: envs.JWT_SEED,
-      signOptions: { expiresIn: '1h' }, // Token expira en 1 hora
+      signOptions: { expiresIn: '1h' },
     }),
-
-
-    // Passport para autenticación
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, UsuariosController,ProductosController,FacturaController,CompraController,ReservasController,CarritoController],
   providers: [
     AuthService,
     JwtPassport,
   ],
   exports: [
-    ClientsModule, // Exportamos los clientes para otros módulos
-    AuthService,   // Si otros servicios necesitan auth
-    PassportModule, 
-    JwtModule, 
+    ClientsModule,
+    AuthService,
+    PassportModule,
+    JwtModule,
   ],
 })
 export class AppModule {
-  static readonly MS_USER = MS_USER;     // Exponemos las constantes
+  static readonly MS_USER = MS_USER;
   static readonly MS_PRODUCTO = MS_PRODUCTO;
   static readonly MS_FACTURA = MS_FACTURA;
 }

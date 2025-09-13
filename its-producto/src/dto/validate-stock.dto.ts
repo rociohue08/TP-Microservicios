@@ -1,4 +1,4 @@
 export class ValidateStockDto {
-  productId: number;
+  productoId: number;
   cantidad: number;
 }

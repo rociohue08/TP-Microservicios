@@ -139,7 +139,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\jime5\\OneDrive\\Escritorio\\DesarrolloWeb\\its-microservicio\\its-users\\generated\\prisma",
+      "value": "C:\\DesarrolloWeb\\its-microservicio\\its-users\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -153,7 +153,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\jime5\\OneDrive\\Escritorio\\DesarrolloWeb\\its-microservicio\\its-users\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\DesarrolloWeb\\its-microservicio\\its-users\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

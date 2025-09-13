@@ -14,4 +14,7 @@ precio: number;
 
 @Column({ default: 0 })
 stock: number;
+
+ @Column({ default: 0 })
+  stock_reservado: number;
 }

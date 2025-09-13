@@ -1,14 +1,12 @@
 /*el envs se encarga de:
-1.cargar las variables de entorno
-con dotenv 
+1.cargar las variables de entornocon dotenv 
 2.define una interfaz envvars con las variables que necesitas
-3.valida que existany sean de tippo correcto usando joi 
+3.valida que existany sean de tipo correcto usando joi 
 4.exporta un objeto envs con los valores validados*/
 
 import * as dotenv from 'dotenv';
 import * as joi from 'joi';
 
-// Cargamos solo lo del .env
 dotenv.config();
 
 interface EnvVars {

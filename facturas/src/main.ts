@@ -1,13 +1,12 @@
 
-// Inicia el microservicio TCP
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './factura.module';
 import { envs } from './config/envs';
+import { FacturaModule } from './factura.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
+    FacturaModule,
     {
       transport: Transport.TCP,
       options: {

@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
-import { FacturasController } from './factura.controller';
-import { FacturasService } from './factura.service';
 import { PrismaService } from './prisma.service';
+import { FacturaController } from './factura.controller';
+import { FacturaService } from './factura.service';
 
 @Module({
-  controllers: [FacturasController],
+  controllers: [FacturaController],
   providers: [
-    FacturasService,
-    PrismaService // ← Importante: registrado aquí
+    FacturaService,
+    PrismaService 
   ],
 })
-export class AppModule {}
+export class FacturaModule {}
 
-//Registra todos los providers

@@ -1,17 +1,48 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/auth.guard';
-import { CarritoService } from './carrito.service';
-import { AgregarAlCarritoDto } from './dto/agregar-al-carrito.dto';
-import { User } from 'src/interfaces/usuario.interface';
-@Controller('carrito')
-@UseGuards(JwtAuthGuard)
-export class CarritoController {
-  constructor(private readonly carritoService: CarritoService) {}
+import { Controller, Post, Body, Inject, Get, Request, UseGuards } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { MS_USER } from '../config/constants';
+import { lastValueFrom } from 'rxjs';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
+import { payloadInterface } from 'src/interfaces/PayloadInterfece';
+import { CarritoItem } from 'src/interfaces/carrito.interface';
+import { MessageResponse } from 'src/interfaces/message-response.interface'; 
 
-  @Post('agregar')
-  async agregar(@Body() dto: AgregarAlCarritoDto, @User() user: User) {
-    const usuarioId = user.id; // ← Usa 'id' en lugar de 'userId'
-    return await this.carritoService.agregarProducto(usuarioId, dto);
+@Controller('carrito')
+export class CarritoController {
+  constructor(
+    @Inject(MS_USER) private readonly usuarioClient: ClientProxy,
+  ) { }
+
+  // Agrega un producto al carrito
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  async agregarAlCarrito(
+    @Body() data: { productId: number; cantidad: number },
+    @Request() req: { user: payloadInterface }
+  ): Promise<MessageResponse> { 
+    const userId = req.user.userId;
+    return await lastValueFrom<MessageResponse>( 
+      this.usuarioClient.send('agregarAlCarrito', { ...data, userId }),
+    );
+  }
+
+  // Obtiene el carrito del usuario autenticado
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async getCarrito(@Request() req: { user: payloadInterface }): Promise<CarritoItem[]> {
+    const usuarioId = req.user.userId;
+    return lastValueFrom<CarritoItem[]>(
+      this.usuarioClient.send('getCarrito', { usuarioId }),
+    );
+  }
+
+  // Limpia el carrito después de la compra
+  @UseGuards(JwtAuthGuard)
+  @Post('limpiar')
+  async limpiarCarrito(@Request() req: { user: payloadInterface }): Promise<void> {
+    const usuarioId = req.user.userId;
+    await lastValueFrom(
+      this.usuarioClient.send('limpiarCarrito', { usuarioId }),
+    );
   }
 }

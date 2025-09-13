@@ -1,25 +1,26 @@
-import { NestFactory } from '@nestjs/core';
+// ms-user/src/main.ts
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-async function bootstrap() {
-  // 🔧 1. Iniciar servidor HTTP (rutas REST)
-  const httpApp = await NestFactory.create(AppModule);
-  await httpApp.listen(4001); // ← Puerto para Postman y frontend
-  console.log('HTTP server running on http://localhost:4001');
+import { envs } from './config/envs';
 
-  // ⚙️ 2. Iniciar microservicio TCP (comunicación entre servicios)
-  const tcpApp = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
+async function bootstrap() {
+  try {
+    const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
       transport: Transport.TCP,
       options: {
-        host: 'localhost',
-        port: 3001, // ← Puerto para comunicación interna (Gateway)
+        host: envs.MS_USER_HOST, 
+        port: envs.MS_USER_PORT, 
       },
-    }
-  );
-  await tcpApp.listen();
-  console.log('TCP microservice running on port 3001');
+    });
+
+ 
+    await app.listen();
+    console.log(`MS-Usuario escuchando en TCP puerto ${envs.MS_USER_PORT}`);
+  } catch (error) {
+    console.error(' Error al iniciar el microservicio:', error.message || error);
+    process.exit(1);
+  }
 }
 
 bootstrap();

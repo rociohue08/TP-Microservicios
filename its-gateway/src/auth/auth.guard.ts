@@ -1,5 +1,3 @@
-//protege las rutas con jwt
-
 import { Injectable } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 

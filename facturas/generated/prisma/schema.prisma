@@ -9,17 +9,11 @@ datasource db {
 }
 
 model Factura {
-  id        Int                 @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   usuarioId Int
   total     Float
-  fecha     DateTime            @default(now())
-  productos ProductoEnFactura[]
-}
+  fecha     DateTime @default(now())
+  items     Json // { productoId: number, cantidad: number, precio: number }[]
 
-model ProductoEnFactura {
-  id         Int      @id @default(autoincrement())
-  productoId Int
-  cantidad   Int
-  facturaId  Int?
-  factura    Factura? @relation(fields: [facturaId], references: [id])
+  @@map("Factura")
 }

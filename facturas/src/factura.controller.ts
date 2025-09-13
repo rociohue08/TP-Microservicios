@@ -1,48 +1,30 @@
-// import { Controller } from '@nestjs/common';
-// import { MessagePattern } from '@nestjs/microservices';
-// import { FacturasService } from './factura.service';
-
-// @Controller()
-// export class FacturasController {
-//   constructor(private readonly facturasService: FacturasService) {}
-
-//   @MessagePattern('getFacturas')
-//   getFacturas() {
-//     return this.facturasService.findAll();
-//   }
-
-//   @MessagePattern('getFacturaById')
-//   getFactura(data: { id: number }) {
-//     return this.facturasService.findOne(data.id);
-//   }
-// }
-
-
-// //Expone endpoints como servicios TCP
-
-
 
 import { Controller } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
-import { FacturasService } from './factura.service';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { CreateFacturaDto } from './dto/create-factura.dto';
+import { FacturaService } from './factura.service';
 
 @Controller()
-export class FacturasController {
-  constructor(private readonly facturasService: FacturasService) {}
+export class FacturaController {
+  constructor(private readonly facturaService: FacturaService) {}
+
+  @MessagePattern('crearFactura')
+  crearFactura(@Payload() data: CreateFacturaDto) {
+    return this.facturaService.crearFactura(data);
+  }
 
   @MessagePattern('getFacturas')
   getFacturas() {
-    return this.facturasService.findAll();
+    return this.facturaService.getFacturas();
   }
 
   @MessagePattern('getFacturaById')
-  getFactura(data: { id: number }) {
-    return this.facturasService.findOne(data.id);
+  getFacturaById(@Payload() id: number) {
+    return this.facturaService.getFacturaById(id);
   }
 
-  // Solo para prueba:
-  @MessagePattern('createFactura')
-  async createFactura(data: any) {
-    return await this.facturasService.create(data);
+  @MessagePattern('pagarFactura')
+  pagarFactura(@Payload() data: { facturaId: number; usuarioId: number }) {
+    return this.facturaService.pagarFactura(data.facturaId, data.usuarioId);
   }
 }

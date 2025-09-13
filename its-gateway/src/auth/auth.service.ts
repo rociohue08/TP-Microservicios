@@ -4,8 +4,6 @@ import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { User } from 'src/interfaces/usuario.interface';
 
-
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -30,9 +28,8 @@ export class AuthService {
 
       return user as User;
     } catch (error) {
-      // Manejo seguro del error
       const errorMessage = error instanceof Error ? error.message : String(error);
-      console.error('❌ Error al validar usuario:', errorMessage);
+      console.error(' Error al validar usuario:', errorMessage);
       return null;
     }
   }
@@ -45,6 +42,7 @@ export class AuthService {
     };
 
     const token = await this.jwtService.signAsync(payload);
+      console.log('Las credeciales fueron validadas y el token fue creado con exito');
     return { access_token: token };
   }
 }

@@ -1,5 +1,8 @@
 export class CreateFacturaDto {
   usuarioId: number;
-  total: number;
-  productos: { productoId: number; cantidad: number }[];
+  items: { 
+    productoId: number; 
+    cantidad: number; 
+    precio: number 
+  }[];
 }

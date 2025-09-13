@@ -3,10 +3,8 @@
 import * as dotenv from 'dotenv';
 import * as joi from 'joi';
 
-// Cargamos las variables desde .env
 dotenv.config();
 
-// Interfaz con las variables que usará el gateway
 interface EnvVars {
   PORT: number;
   MS_USER_HOST: string;
@@ -19,7 +17,6 @@ interface EnvVars {
 
 }
 
-// Solo tomamos las variables que nos interesan (ignoramos las del sistema)
 const _envs = {
   PORT: process.env.PORT,
   MS_USER_HOST: process.env.MS_USER_HOST,
@@ -31,7 +28,6 @@ const _envs = {
   JWT_SEED: process.env.JWT_SEED,
 };
 
-// Esquema de validación – TODAS deben estar aquí
 const envsSchema = joi.object({
   PORT: joi.number().required(),
   MS_USER_HOST: joi.string().required(),
@@ -41,21 +37,18 @@ const envsSchema = joi.object({
   MS_FACTURA_HOST:joi.string().required(),
   MS_FACTURA_PORT:joi.number().required(),
   JWT_SEED: joi.string().required(),
-}).unknown(false); // ❌ No permitimos variables extras
+}).unknown(false); 
 
-// Validamos solo las variables definidas por nosotros
 const { error, value } = envsSchema.validate(_envs, {
   abortEarly: false,
-  convert: true, // 👈 Esto convierte automáticamente strings a números
+  convert: true, 
 });
 
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);
 }
-// Aseguramos el tipo usando la interfaz EnvVars
 const validatedEnvs = value as EnvVars;
 
-// Exportamos las variables ya validadas y con tipos correctos
 export const envs = {
   PORT: validatedEnvs.PORT,
   MS_USER_HOST: validatedEnvs.MS_USER_HOST,

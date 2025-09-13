@@ -121,14 +121,8 @@ exports.Prisma.FacturaScalarFieldEnum = {
   id: 'id',
   usuarioId: 'usuarioId',
   total: 'total',
-  fecha: 'fecha'
-};
-
-exports.Prisma.ProductoEnFacturaScalarFieldEnum = {
-  id: 'id',
-  productoId: 'productoId',
-  cantidad: 'cantidad',
-  facturaId: 'facturaId'
+  fecha: 'fecha',
+  items: 'items'
 };
 
 exports.Prisma.SortOrder = {
@@ -136,15 +130,24 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 
 
 exports.Prisma.ModelName = {
-  Factura: 'Factura',
-  ProductoEnFactura: 'ProductoEnFactura'
+  Factura: 'Factura'
 };
 
 /**

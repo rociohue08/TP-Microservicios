@@ -1,15 +1,28 @@
-import { Module } from "@nestjs/common";
-import { AppService} from "./app.service";
-import { PrismaService } from "src/prisma.service";
-import { AppController } from "./app.controller";
-import { UsuariosController } from "./controllers/usuarios.controller";
-import { AgregarAlCarritoDto } from "./dtos/agregar-al-carrito.dto";
+import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { UsuarioModule } from './modules/usuario/usuario.module';
+import { CarritoModule } from './modules/carrito/carrito.module';
+import { PrismaService } from './prisma.service';
+import { envs } from './config/envs';           
+import { MS_PRODUCTO } from './config/constants'; 
 
-@Module ({
-    imports:[],
-    controllers:[AppController,UsuariosController],
-    providers:[AppService, PrismaService],
-
+@Module({
+  imports: [
+    UsuarioModule,
+    CarritoModule,
+ 
+    ClientsModule.register([
+      {
+        name: MS_PRODUCTO,
+        transport: Transport.TCP,
+        options: {
+          host: envs.MS_PRODUCTO_HOST,
+          port: envs.MS_PRODUCTO_PORT,
+        },
+      },
+    ]),
+  ],
+  providers: [PrismaService],
+  exports: [PrismaService, ClientsModule], 
 })
-
-export  class AppModule{}
+export class AppModule {}
