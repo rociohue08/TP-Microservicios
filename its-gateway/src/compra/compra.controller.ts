@@ -7,6 +7,12 @@ import { FacturaItem, Factura } from 'src/interfaces/factura.interface';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { payloadInterface } from 'src/interfaces/PayloadInterfece';
 import { CarritoItem } from 'src/interfaces/carrito.interface';
+import { ApiBearerAuth,ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+
+
+@ApiTags('Compra')
+@ApiBearerAuth() //para indicar que los endpoints requieren JWT
+
 
 @Controller('compra')
 export class CompraController {
@@ -19,6 +25,22 @@ export class CompraController {
   // Confirmar la compra y crear la factura
   @UseGuards(JwtAuthGuard)
   @Post('confirmar')
+
+   @ApiOperation({ summary: 'Confirma lo que se cargo en el carrito, genera la reserva y la factura a pagar ' })
+  @ApiResponse({
+    status: 201,
+    description: 'Confirmacion del carrito, reserva y factura generada',
+    schema: {
+      example: {
+        message: 'Conformación realizada con éxito. Confirma el pago para completar.',
+        total: 4800,
+        items: [{ productoId: 1, cantidad: 4, precio: 1200 }],
+        facturaId: 8
+      },
+    },
+  })
+  @ApiResponse({ status: 400, description: 'Carrito vacío o datos inválidos' })
+
   async confirmarCompra(@Request() req: { user: payloadInterface }) {
     const usuarioId = req.user.userId;
 
@@ -95,6 +117,23 @@ export class CompraController {
   // Confirmar el pago de la factura
   @UseGuards(JwtAuthGuard)
   @Post('pagar/:facturaId')
+
+  @ApiOperation({ summary: 'Confirmar el pago de la factura ' })
+  @ApiParam({ name: 'facturaId', type: Number, description: 'ID de la factura a pagar' })
+  @ApiResponse({
+    status: 200,
+    description: 'Pago confirmado correctamente',
+    schema: {
+      example: {
+        message: 'Pago confirmado correctamente',
+        facturaId: 8,
+        estado: 'pagada',
+        result: { facturaId: 8, usuarioId: 3, pagada: true }
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: 'Factura no encontrada' })
+  
   async pagarCompra(
     @Param('facturaId') facturaId: number,
     @Request() req: { user: payloadInterface },

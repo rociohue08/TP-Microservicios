@@ -2,6 +2,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { CreateFacturaDto } from './dto/create-factura.dto';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class FacturaService {
@@ -60,7 +61,7 @@ export class FacturaService {
 
   async pagarFactura(facturaId: number, usuarioId: number) {
     const factura = await this.prisma.factura.findUnique({ where: { id: facturaId } });
-    if (!factura) throw new BadRequestException('Factura no encontrada');
+    if (!factura) throw new RpcException('Factura no encontrada');
 
   
 
